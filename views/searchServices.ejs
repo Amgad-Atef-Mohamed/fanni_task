@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <title>Request Service</title>
+
+        <!-- inject:css -->
+        <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/simplePagination.css" />
+        <!-- endinject -->
+
+        <style>
+            .card-container.card{
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="card card-container">
+                <form>
+                    <div class="form-group col-md-12">
+                        <label for="from" class="form-label">From</label>
+                        <input type="date" id="from" class="form-control" name="from">
+                    </div>
+                    <div class="col-md-6 col-md-12">
+                        <label for="to" class="form-label">To</label>
+                        <input type="date" id="to" class="form-control" name="to" >
+                    </div>
+                </form>
+                <div>
+                    <table class="table table-striped" id="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Customer name</th>
+                                <th scope="col">Service</th>
+                                <th scope="col">Severity</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3">
+                                    <div id="pagination"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+    <!-- inject:js -->
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/bootstrap.js"></script>
+    <script src="/javascripts/simplePagination.js"></script>
+    <!-- endinject -->
+
+    <script>
+      let totalItems = 0;
+       function loadDta (data) {
+         $.ajax({
+           url: "api/v1/services",
+           method: 'get',
+           data: data,
+           success: function(result){
+             totalItems = result.count || 0;
+             $("#table tbody").empty();
+             result.rows.forEach(function (record, index) {
+               const tableContent =
+                 '<tr>' +
+                     '<th scope="row">'+index+'</th>' +
+                     '<td>'+record.customer.first_name +' '+ record.customer.last_name +'</td>' +
+                     '<td>'+record.service.name+'</td>' +
+                     '<td>'+record.serviceSeverity.name+'</td>' +
+                     '<td>'+record.problemDescription+'</td>' +
+                 '</tr>';
+               $("#table tbody").append(tableContent);
+             });
+           },error: function (error) {
+           }
+         });
+       }
+       loadDta({});
+    </script>
+
+    <script>
+      $(function() {
+        $('#pagination').pagination({
+          items: totalItems,
+          itemsOnPage: 10,
+          cssStyle: 'light-theme',
+          onPageClick : function (pageNumber, event) {
+            const data = { page : pageNumber };
+            if($('#from').val()){
+              data.from = $('#from').val();
+            }
+
+            if($('#to').val()){
+              data.from = $('#to').val();
+            }
+            loadDta(data);
+          }
+        });
+      });
+    </script>
+</html>

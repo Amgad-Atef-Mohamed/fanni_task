@@ -1,0 +1,22 @@
+{
+  "name": "without-space",
+  "description": "",
+  "main": [
+    "bootstrap.css"
+  ],
+  "authors": [
+    "amgad"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "bootstrap": "^4.1.3"
+  }
+}

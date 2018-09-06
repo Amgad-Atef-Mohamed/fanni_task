@@ -1,0 +1,43 @@
+{
+  "name": "fanniapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "db:migrate": " sequelize db:drop && sequelize db:create && sequelize db:migrate:undo:all && sequelize db:migrate",
+    "pretest": "NODE_ENV=test npm run db:migrate",
+    "test": "NODE_ENV=test mocha"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "celebrate": "^8.0.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "^2.6.1",
+    "express": "~4.15.5",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.10",
+    "morgan": "~1.9.0",
+    "mysql2": "^1.6.1",
+    "sequelize": "^4.38.0",
+    "serve-favicon": "~2.4.5",
+    "xss": "^1.0.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "gulp": "^4.0.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-filter": "^5.1.0",
+    "gulp-flatten": "^0.4.0",
+    "gulp-inject": "^4.3.2",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-order": "^1.1.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.1",
+    "main-bower-files": "^2.13.1",
+    "mocha": "^5.2.0",
+    "sinon": "^6.2.0"
+  }
+}

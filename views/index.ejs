@@ -1,0 +1,236 @@
+<html>
+    <head>
+        <title>Request Service</title>
+
+        <!-- inject:css -->
+        <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <!-- endinject -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <style>
+            .se-pre-con {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                z-index: 9999;
+                background-color: #81818257;
+            }
+
+            .loader {
+                left: 50%;
+                top: 35%;
+                position: relative;
+                border: 16px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 16px solid blue;
+                border-bottom: 16px solid blue;
+                width: 50px;
+                height: 50px;
+                -webkit-animation: spin 2s linear infinite;
+                animation: spin 2s linear infinite;
+            }
+
+            @-webkit-keyframes spin {
+                0% { -webkit-transform: rotate(0deg); }
+                100% { -webkit-transform: rotate(360deg); }
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="card card-container">
+                <div class="se-pre-con d-none">
+                    <div class="loader"></div>
+                </div>
+                <form action="/api/v1/users/1/services" method="POST"
+                      class="form-signin needs-validation <%  if(typeof locals.errors != 'undefined'){%> was-validated <% } %>"
+                      novalidate id="myform">
+                    <input type="hidden" name="accessToken" value="<%= locals.accessToken %>" >
+                    <div id="generalError" class="text-danger text-center d-none"></div>
+                    <div class="form-group">
+                        <label for="datePicker" class="">Date</label>
+                        <input type="text" id="datePicker" class="form-control" name="currentDate" required readonly>
+                        <div class="invalid-feedback">
+                            "currentDate" is not allowed to be empty.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="typeOfProblem">Type of problem</label>
+                        <select name="typeOfProblem" id="typeOfProblem" class="form-control" required>
+                            <option value=""></option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.typeOfProblem === '1'){%> selected <%}%>
+                                    value="1">Electric</option>
+                            <option  <% if(typeof locals.oldData != 'undefined' && locals.oldData.typeOfProblem === '2'){%> selected <%}%>
+                                    value="2">Air Condition</option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.typeOfProblem === '3'){%> selected <%}%>
+                                    value="3">Water</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            "type Of Problem" is not allowed to be empty.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Severity">Severity</label>
+                        <select name="Severity" id="Severity" class="form-control" required>
+                            <option value=""></option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.Severity === 'Critical'){%> selected <%}%> value="1">Critical</option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.Severity === 'Major'){%> selected <%}%> value="2">Major</option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.Severity === 'Minor'){%> selected <%}%> value="3">Minor</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            "Severity" is not allowed to be empty.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="City">City</label>
+                        <select name="City" id="City" class="form-control" required>
+                            <option value=""></option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.City === 'Meccah'){%> selected <%}%> value="1">Meccah</option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.City === 'Riyadh'){%> selected <%}%> value="2">Riyadh</option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.City === 'Jeddah'){%> selected <%}%> value="3">Jeddah</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            "City" is not allowed to be empty
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="District">District</label>
+                        <select name="District" id="District" class="form-control" required>
+                            <option value=""></option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.District === 'Azizia'){%> selected <%}%> value="Azizia">Azizia</option>
+                            <option <% if(typeof locals.oldData != 'undefined' && locals.oldData.District === 'khalidia'){%> selected <%}%> value="khalidia">khalidia</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            "District" is not allowed to be empty
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="problemDescription">Problem Description</label>
+                        <textarea name="problemDescription" id="problemDescription" cols="26" rows="5" class="form-control" required><%if(typeof locals.oldData != 'undefined' && locals.oldData.problemDescription){%><%=locals.oldData.problemDescription%><%}%></textarea>
+                        <div class="invalid-feedback">
+                            "problem Description" is not allowed to be empty
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 10%">
+                        <div class="col-xs-6 text-left">
+                            <button id="requestService" type="submit" class="btn btn-primary btn-lg">Request</button>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <button type="button" class="btn btn-warning btn-lg" onclick="document.getElementById('myform').reset();document.getElementById('datePicker').value = new Date().toLocaleDateString('en-US');"> Reset</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="myModal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Requested Service Status</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p>Service Requested Successfully.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </body>
+    <!-- inject:js -->
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/bootstrap.js"></script>
+    <!-- endinject -->
+    <script>
+      $(document).ready( function() {
+        document.getElementById('datePicker').value = new Date().toLocaleDateString('en-US');
+      })
+    </script>
+    <script>
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          const forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          const validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <script>
+      $(document).ready(function(){
+        $("#requestService").click(function(event){
+          event.preventDefault();
+          const self = $(this);
+          self.html('<i class="fa fa-refresh fa-spin"></i> Requesting');
+          console.log('$(\'form\').serialize()', $('form').serialize())
+          $.ajax({
+            url: "api/v1/users/1/services",
+            method: 'post',
+            data: $('form').serialize(),
+            success: function(result){
+              console.log('result', result);
+              $('#myModal').modal('toggle');
+              document.getElementById('myform').reset();
+              document.getElementById('datePicker').value = new Date().toLocaleDateString('en-US');
+              self.html('Request');
+            },error: function (error) {
+              $('form').attr('class', 'was-validated');
+              if(error.status === 401){
+                console.log(error);
+                $('#generalError').text(error.responseJSON.message);
+                $('#generalError').addClass('d-block');
+              }
+              self.html('Request');
+            }
+          });
+        });
+      });
+    </script>
+    <script>
+        $('#City').change(function (event) {
+          $('.se-pre-con').addClass('d-block');
+          if(!$(this).val()){
+            $('#District').html('<option value=""></option>');
+            return;
+          }
+
+          $.ajax({
+            url: "api/v1/cities/"+$(this).val()+"/districts",
+            method: 'get',
+            data: $('form').serialize(),
+            success: function(result){
+              let options = '<option value=""></option>';
+              result.forEach(function (district) {
+                options +='<option value="'+district.id+'">'+district.name+'</option>';
+              });
+              $('#District').html(options);
+              $('.se-pre-con').attr('class', 'd-none');
+            },error: function (error) {
+              $('.se-pre-con').attr('class', 'd-none');
+            }
+          });
+        })
+    </script>
+</html>
+
