@@ -93,6 +93,12 @@ npm install sequelize-cli -g
 npm install gulp -g
 npm install bower -g
 ```
+* Install git if not installed in your computer according to your operating system.
+
+* install all front end packages e.g. bootstrap and jquery.
+```
+$ bower install --allow-root
+```
 * Edit configuration file in config/database.json with your credentials.
 * run migrations to create tables in database.
 ```

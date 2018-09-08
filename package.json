@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all && node ./bin/www",
     "db:migrate": " sequelize db:drop && sequelize db:create && sequelize db:migrate:undo:all && sequelize db:migrate",
     "pretest": "NODE_ENV=test npm run db:migrate",
     "test": "NODE_ENV=test mocha"

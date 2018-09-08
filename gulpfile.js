@@ -1,6 +1,5 @@
 // Include gulp
 const gulp = require('gulp');
-const print = require('gulp-print').default;
 
 // Include plugins
 const plugins = require('gulp-load-plugins')({
