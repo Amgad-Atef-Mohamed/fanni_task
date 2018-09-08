@@ -26,7 +26,7 @@ services:
       - MYSQL_HOST=mysql
       - MYSQL_PASS=123456
     ports:
-      - "1337:1337"
+      - "3000:3000"
 
 networks:
   tasknet:
